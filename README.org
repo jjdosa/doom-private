@@ -789,18 +789,76 @@ causes conflict in syncing files between linux and mac.
 
 #+end_src
 
-*** Company
+*** Completion
+**** Company
 
 #+begin_src emacs-lisp
 
-(map! :map company-active-map
-      "TAB"        #'company-select-common-or-cycle
-      "<tab>"      #'company-select-common-or-cycle
-      "RET"        nil
-      "<return>"   nil
-      "S-RET"      #'company-complete
-      "<S-return>" #'company-complete
-)
+;; (map! :map company-active-map
+;;       "TAB"        #'company-select-common-or-cycle
+;;       "<tab>"      #'company-select-common-or-cycle
+;;       "RET"        nil
+;;       "<return>"   nil
+;;       "S-RET"      #'company-complete
+;;       "<S-return>" #'company-complete
+;; )
+
+#+end_src
+
+**** Corfu
+
+https://github.com/minad/corfu
+
+Corfu is not recognized by doomemacs yet, so it needs custom installation.
+https://discourse.doomemacs.org/t/new-completion-corfu-module/2685
+
+#+begin_src emacs-lisp  :tangle packages.el
+
+(package! corfu :recipe (:host github :repo "minad/corpu" :branch "main"))
+
+(when (featurep! +orderless)
+  (package! orderless :recipe (:host github :repo "oantolin/orderless" :branch "master")))
+(package! kind-icon :recipe (:host github :repo "jdtsmith/kind-icon" :branch "main"))
+(package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
+(package! corfu-doc :recipe (:host github :repo "galeo/corfu-doc" :branch "main"))
+
+#+end_src
+
+#+begin_src emacs-lisp
+
+(use-package corfu
+  :custom
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect-first nil)    ;; Disable candidate preselection
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-echo-documentation nil) ;; Disable documentation in the echo area
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; Enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.
+  ;; This is recommended since Dabbrev can be used globally (M-/).
+  ;; See also `corfu-excluded-modes'.
+  :init
+  (global-corfu-mode))
+
+
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
 
 #+end_src
 

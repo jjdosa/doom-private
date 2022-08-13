@@ -59,6 +59,14 @@
 
 (package! lsp-haskell)
 
+(package! corfu :recipe (:host github :repo "minad/corpu" :branch "main"))
+
+(when (featurep! +orderless)
+  (package! orderless :recipe (:host github :repo "oantolin/orderless" :branch "master")))
+(package! kind-icon :recipe (:host github :repo "jdtsmith/kind-icon" :branch "main"))
+(package! cape :recipe (:host github :repo "minad/cape" :branch "main"))
+(package! corfu-doc :recipe (:host github :repo "galeo/corfu-doc" :branch "main"))
+
 (package! string-inflection)
 
 (package! rg)
