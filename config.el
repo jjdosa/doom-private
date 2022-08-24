@@ -338,15 +338,50 @@
   :bind
     ("C-c C-j" . vterm-send-C-j)
     ("C-c C-k" . vterm-send-C-k)
-)
+  :config
+    (map! :after vterm
+          :map vterm-mode-map
+          :ni "C-j" #'vterm-send-down
+          :ni "C-k" #'vterm-send-up
+          :ni "C-r" #'vterm-send-C-r
+          :ni "C-t" #'vterm-send-C-t))
 
-(map! :after vterm
-      :map vterm-mode-map
-      :ni "C-j" #'vterm-send-down
-      :ni "C-k" #'vterm-send-up
-      :ni "C-r" #'vterm-send-C-r
-      :ni "C-t" #'vterm-send-C-t
-      )
+(use-package! vterm
+  :config
+    (defun get-full-list ()
+      (let ((program-list (split-string (shell-command-to-string "compgen -c") "\n" t ))
+            (file-directory-list (split-string (shell-command-to-string "compgen -f") "\n" t ))
+            (history-list (with-temp-buffer
+                            (insert-file-contents "~/.bash_history")
+                            (split-string (buffer-string) "\n" t))))
+
+        (delete-dups (append program-list file-directory-list history-list))))
+
+    (defun vterm-completion-choose-item ()
+      (completing-read "Choose: " (get-full-list) nil nil (thing-at-point 'word 'no-properties)))
+
+    (defun vterm-completion ()
+      (interactive)
+      (vterm-directory-sync)
+      (let ((vterm-chosen-item (vterm-completion-choose-item)))
+        (when (thing-at-point 'word)
+          (vterm-send-meta-backspace))
+        (vterm-send-string vterm-chosen-item)))
+
+    (defun vterm-directory-sync ()
+      "Synchronize current working directory."
+      (interactive)
+      (when vterm--process
+        (let* ((pid (process-id vterm--process))
+               (dir (file-truename (format "/proc/%d/cwd/" pid))))
+              (setq default-directory dir))))
+
+    (map! :after vterm
+          :map vterm-mode-map
+          :ni "C-TAB"      #'vterm-completion
+          :ni "C-<tab>"    #'vterm-completion
+          :ni "C-RET"      #'vterm-directory-sync
+          :ni "C-<return>" #'vterm-directory-sync))
 
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
