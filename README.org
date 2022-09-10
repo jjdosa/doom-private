@@ -882,6 +882,7 @@ causes conflict in syncing files between linux and mac.
   :bind ("C-c s" . rg-menu)
   :config
   (message "rg loaded")
+  (map! :leader "r" #'rg-menu)
 )
 
 #+end_src
@@ -917,8 +918,8 @@ causes conflict in syncing files between linux and mac.
         :desc "fzf-directory"     "d" #'fzf-directory
         :desc "fzf-grep"          "g" #'fzf-grep
         :desc "fzf-git-grep"      "G" #'fzf-git-grep
-        :desc "fzf-switch-buffer" "b" #'fzf-switch-buffer
-      ))
+        :desc "fzf-switch-buffer" "b" #'fzf-switch-buffer)
+      ">" #'fzf-directory)
 
 #+end_src
 
@@ -949,6 +950,13 @@ https://github.com/Vonfry/zoxide.el
 
 #+end_src
 *** Dired
+
+#+begin_src emacs-lisp
+
+(map! :leader "d" #'dired-jump)
+
+#+end_src
+
 **** Dired-hide-dotfiles
 
 #+begin_src emacs-lisp :tangle packages.el
@@ -1079,38 +1087,16 @@ https://gist.github.com/ram535/a2153fb86f33ecec587d593c1c5e1623
 
 *** workspace
 
-No new workspace will be created by the command 'emacsclient -c'.
-https://github.com/doomemacs/doomemacs/issues/1949
-
 #+begin_src emacs-lisp
 
-(after! persp-mode
-  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+  (defun get-current-workspace-name()
+    (safe-persp-name (get-current-persp)))
 
-#+end_src
-
-
-#+begin_src emacs-lisp
-
-(defun get-current-workspace-name()
-  (safe-persp-name (get-current-persp)))
-
-(after! persp-mode
-  (setq persp-interactive-init-frame-behaviour-override #'get-current-workspace-name)
-  (setq persp-init-new-frame-behaviour-override #'get-current-workspace-name))
-
-#+end_src
-
-*** Custom Keybindings
-
-#+begin_src emacs-lisp
-
-(map! :leader
-      "r" #'rg-menu
-      ">" #'fzf-directory
-      "d" #'dired-jump
-      )
-
+  (map! "M-["      #'+workspace/switch-left
+        "M-]"      #'+workspace/switch-right
+        "M-`"      #'+workspace/other
+        "M-TAB"    #'+workspace/switch-to
+        "M-<tab>" #'+workspace/switch-to)
 #+end_src
 
 * Appendix

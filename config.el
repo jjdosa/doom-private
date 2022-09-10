@@ -271,6 +271,7 @@
   :bind ("C-c s" . rg-menu)
   :config
   (message "rg loaded")
+  (map! :leader "r" #'rg-menu)
 )
 
 (map! :leader
@@ -295,8 +296,8 @@
         :desc "fzf-directory"     "d" #'fzf-directory
         :desc "fzf-grep"          "g" #'fzf-grep
         :desc "fzf-git-grep"      "G" #'fzf-git-grep
-        :desc "fzf-switch-buffer" "b" #'fzf-switch-buffer
-      ))
+        :desc "fzf-switch-buffer" "b" #'fzf-switch-buffer)
+      ">" #'fzf-directory)
 
   (map! :leader
         (:prefix ("z" . "zoxide/fzf")
@@ -310,6 +311,8 @@
           :desc "zoxide-find-file-with-query"   "F" #'zoxide-find-file-with-query
           :desc "zoxide-travel-with-query"      "T" #'zoxide-travel-with-query
         ))
+
+(map! :leader "d" #'dired-jump)
 
 (use-package! dired-hide-dotfiles
   :after dired
@@ -383,18 +386,11 @@
           :ni "C-RET"      #'vterm-directory-sync
           :ni "C-<return>" #'vterm-directory-sync))
 
-(after! persp-mode
-  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+  (defun get-current-workspace-name()
+    (safe-persp-name (get-current-persp)))
 
-(defun get-current-workspace-name()
-  (safe-persp-name (get-current-persp)))
-
-(after! persp-mode
-  (setq persp-interactive-init-frame-behaviour-override #'get-current-workspace-name)
-  (setq persp-init-new-frame-behaviour-override #'get-current-workspace-name))
-
-(map! :leader
-      "r" #'rg-menu
-      ">" #'fzf-directory
-      "d" #'dired-jump
-      )
+  (map! "M-["      #'+workspace/switch-left
+        "M-]"      #'+workspace/switch-right
+        "M-`"      #'+workspace/other
+        "M-TAB"    #'+workspace/switch-to
+        "M-<tab>" #'+workspace/switch-to)
