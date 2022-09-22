@@ -20,26 +20,9 @@
 
 (setq doom-theme 'doom-one)
 
-(use-package! face-remap
-  :custom-face
-  (default ((t (:family "Mononoki Nerd Font Mono"))))
-  (fixed-pitch ((t (:family "Mononoki Nerd Font Mono"))))
-  ;; (variable-pitch ((t (:family "SeoulHangang CB"))))
-  (variable-pitch ((t (:family "Noto Sans CJK KR"))))
-)
-
-;; M-x counsel-fonts for other font options
-;; (use-package! face-remap
-;;   :custom-face
-;;   (default ((t (:family "SauceCodePro Nerd Font Mono"))))
-;;   (fixed-pitch ((t (:family "SauceCodePro Nerd Font Mono"))))
-;;   (variable-pitch ((t (:family "SauceCodePro Nerd Font"))))
-;; )
-
-(use-package! mixed-pitch
-  :hook
-  (org-mode . mixed-pitch-mode)
-)
+(setq doom-font (font-spec :family "Mononoki Nerd Font Mono" :size 22)
+      doom-big-font (font-spec :family "Mononoki Nerd Font Mono" :size 36)
+      doom-variable-pitch-font (font-spec :family "Mononoki Nerd Font Mono" :size 22))
 
 (setq display-line-numbers-type t)
 
