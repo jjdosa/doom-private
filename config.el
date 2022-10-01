@@ -171,6 +171,11 @@
                   (org-level-7 . 1.0)
                   (org-level-8 . 1.0)))
     (set-face-attribute (car face) nil :height (cdr face)))
+
+    (setq org-format-latex-options
+      '(:foreground default :background default :scale 4
+        :html-foreground "Black" :html-background "Transparent" :html-scale 1.0
+        :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
 )
 
 (use-package! org
