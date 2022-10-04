@@ -379,8 +379,16 @@
   (defun get-current-workspace-name()
     (safe-persp-name (get-current-persp)))
 
-  (map! "M-["      #'+workspace/switch-left
-        "M-]"      #'+workspace/switch-right
-        "M-`"      #'+workspace/other
-        "M-TAB"    #'+workspace/switch-to
+  (map! "M-["     #'+workspace/switch-left
+        "M-]"     #'+workspace/switch-right
+        "M-`"     #'+workspace/other
+        "M-,"     #'+workspace/switch-to
+        "M-TAB"   #'+workspace/switch-to
         "M-<tab>" #'+workspace/switch-to)
+
+  (map! "C-{"      #'previous-buffer
+        "C-}"      #'next-buffer)
+
+  (map! :leader
+        :desc "previous-buffer" "[" #'previous-buffer
+        :desc "next-buffer"     "]" #'next-buffer)
