@@ -49,8 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! fzf)
-
 (package! windsize)
 
 (package! winum)
@@ -61,7 +59,11 @@
 
 (package! string-inflection)
 
+(package! swagger-to-org)
+
 (package! rg)
+
+(package! fzf)
 
 (package! zoxide)
 

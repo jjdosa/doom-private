@@ -372,8 +372,6 @@ yaml              ; JSON, but readable
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! fzf)
-
 #+end_src
 
 * Emacs Configuration
@@ -828,6 +826,21 @@ causes conflict in syncing files between linux and mac.
 
 #+end_src
 
+*** Swagger to Org
+
+
+#+begin_src emacs-lisp :tangle packages.el
+
+(package! swagger-to-org)
+
+#+end_src
+
+#+begin_src emacs-lisp
+
+(use-package! swagger-to-org)
+
+#+end_src
+
 ** Search
 *** Additional Lookup Providers
 
@@ -891,6 +904,12 @@ causes conflict in syncing files between linux and mac.
 #+end_src
 
 *** fzf
+
+#+begin_src emacs-lisp :tangle packages.el
+
+(package! fzf)
+
+#+end_src
 
 #+begin_src emacs-lisp
 
