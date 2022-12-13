@@ -741,6 +741,34 @@ causes conflict in syncing files between linux and mac.
 
 #+end_src
 
+*** Swagger to Org
+
+
+#+begin_src emacs-lisp :tangle packages.el
+
+(package! swagger-to-org)
+
+#+end_src
+
+#+begin_src emacs-lisp
+
+(use-package! swagger-to-org)
+
+#+end_src
+
+*** Org Pandoc Import
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-pandoc-import
+  :recipe (:host github
+           :repo "tecosaur/org-pandoc-import"
+           :files ("*.el" "filters" "preprocessors")))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! org-pandoc-import :after org)
+#+end_src
+
 ** Editing
 *** Evil
 **** Evil-shift-width
@@ -823,21 +851,6 @@ causes conflict in syncing files between linux and mac.
 #+begin_src emacs-lisp
 
 (use-package! string-inflection)
-
-#+end_src
-
-*** Swagger to Org
-
-
-#+begin_src emacs-lisp :tangle packages.el
-
-(package! swagger-to-org)
-
-#+end_src
-
-#+begin_src emacs-lisp
-
-(use-package! swagger-to-org)
 
 #+end_src
 
