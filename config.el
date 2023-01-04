@@ -203,8 +203,6 @@
 
 (use-package! swagger-to-org)
 
-(use-package! org-pandoc-import :after org)
-
 (setq-default tab-width 2)
 (setq-default evil-shift-width tab-width)
 (setq-default indent-tabs-mode nil)

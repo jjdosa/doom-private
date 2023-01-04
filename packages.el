@@ -59,11 +59,6 @@
 
 (package! swagger-to-org)
 
-(package! org-pandoc-import
-  :recipe (:host github
-           :repo "tecosaur/org-pandoc-import"
-           :files ("*.el" "filters" "preprocessors")))
-
 (package! string-inflection)
 
 (package! rg)
